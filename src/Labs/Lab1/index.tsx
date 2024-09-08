@@ -266,6 +266,13 @@ export default function Lab1() {
                         value="2000-01-21" /><br />
                 </form>
             </div>
+            <h4>Anchor tag</h4>
+            Please
+            <a id="wd-lipsum" href="https://www.lipsum.com"> click here </a>
+            to get dummy text<br />
+
+            <a id="wd-github" href="https://github.com/yashhbeladiya/kanbas-react-web-app"> Click here </a> 
+            to visit the repository of this project. <br />
         </div>
     );
 }  
