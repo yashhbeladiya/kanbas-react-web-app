@@ -1,9 +1,12 @@
 import React from "react";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import Labs from "./Labs";
 export default function App() {
   return (
-    <div>
-      <Labs />
-    </div>
+    <HashRouter>
+      <div>
+        <Labs />
+      </div >
+    </HashRouter>
   );
 }
