@@ -1,0 +1,105 @@
+
+<!-- saved from url=(0057)https://resources.infolinks.com/static/container-4.0.html -->
+<html foxified=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<style>body { margin: 0px !important; }</style><meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="></head>
+<body data-new-gr-c-s-check-loaded="14.1198.0" data-gr-ext-installed="">
+<div id="IL_IFR_Content"><img src="./dcl(1).htm" style="display:none; width:1px; height:1px" alt=""></div>
+<script>
+      (function () {
+        window.addEventListener("message", displayMessage, false);
+        function displayMessage(e) {
+          try {
+            const evt = JSON.parse(e.data);
+            if (evt.name === "IL_iceContent") {
+              createContentIFrame(evt.content);
+              const styleElement = document.createElement("style");
+              styleElement.textContent = "body { margin: 0px !important; }";
+              document.head.appendChild(styleElement);
+            }
+            if (evt.name === "IL_sendExternalMrc") {
+              evt.mrcTrackingPixels.map((pixel) => {
+                document
+                  .getElementById("IL_IFR_Content")
+                  .insertAdjacentHTML(
+                    "beforeend",
+                    "<img src='" +
+                      pixel +
+                      "'style='display:none; width:1px; height:1px' alt=''>"
+                  );
+              });
+            }
+          } catch (err) {
+            //console.log("[ICE] do nothing", err)
+          }
+        }
+        /**
+         * creates second nested iframe to display the ad content
+         */
+        function createContentIFrame(content) {
+          const iframe = document.createElement("iframe");
+          iframe.setAttribute("width", "100%");
+          iframe.setAttribute("height", "100%");
+          iframe.setAttribute("frameborder", "0");
+          iframe.setAttribute("scrolling", "no");
+
+          // Setting up communication between parent and iframe
+          iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
+
+          iframe.onload = function () {
+            const iframeDoc =
+              iframe.contentDocument || iframe.contentWindow.document;
+            handleContent(content, iframeDoc);
+          };
+          document.body.appendChild(iframe);
+        }
+        /**
+         * Aims to handle content that is sent to be rendered
+         * @param {*} content The ad content
+         * @param {*} iframeDoc the iframe container document
+         */
+        function handleContent(content, iframeDoc) {
+          var frag = iframeDoc.createRange().createContextualFragment(content);
+          iframeDoc.body.appendChild(frag);
+          const styleElement = document.createElement("style");
+          styleElement.textContent = "body { margin: 0px !important; }";
+          iframeDoc.head.appendChild(styleElement);
+        }
+      })();
+    </script>
+
+
+<iframe width="100%" height="100%" frameborder="0" scrolling="no" sandbox="allow-scripts allow-same-origin" src="./saved_resource(2).html"></iframe><script>(() => {
+        window.addoncropExtensions = window.addoncropExtensions || [];
+        window.addoncropExtensions.push({
+            mode: 'emulator',
+            emulator: 'Foxified',
+            extension: {
+                id: 44,
+                name: 'YouTube Downloader by Addoncrop',
+                version: '17.3.3',
+                date: 'January 29, 2024',
+            },
+            flixmateConnected: false,
+        });
+    })();</script></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
