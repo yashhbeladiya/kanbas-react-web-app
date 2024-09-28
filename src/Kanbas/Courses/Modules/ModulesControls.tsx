@@ -6,7 +6,7 @@ export default function ModulesControls() {
     <div id="wd-modules-controls" className="text-nowrap">
       <button
         id="wd-add-module-btn"
-        className="btn btn-lg btn-danger me-3 float-end"
+        className="btn btn-lg btn-danger me-1 float-end"
       >
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module

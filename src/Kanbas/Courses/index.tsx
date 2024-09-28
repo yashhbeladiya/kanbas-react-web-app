@@ -5,11 +5,12 @@ import Home from "./Home";
 import Assignment from "./Assignment";
 import AssignmentEditor from "./Assignment/Editor";
 import { FaAlignJustify } from "react-icons/fa";
+import PeopleTable from "./People/Table";
 
 export default function Courses() {
   return (
     <div id="wd-courses">
-      <h2 className="text-danger">
+      <h2 className="text-danger mt-3">
         {" "}
         <FaAlignJustify className="me-4 fs-4 mb-1" />
         Course 1234
@@ -26,7 +27,7 @@ export default function Courses() {
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignment />} />
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-            <Route path="People" element={<h2>People</h2>} />
+            <Route path="People" element={<PeopleTable />} />
           </Routes>
         </div>
       </div>
