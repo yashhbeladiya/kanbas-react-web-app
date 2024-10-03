@@ -35,21 +35,19 @@ body * {
 }
 
 #wd-search-assignment {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 1rem; */
   align-items: center;
   position: relative;
-  /* padding: 10px; */
 }
 
 .wd-input-search {
-  width: 250px; /* Set the desired width */
-  height: 40px; /* Set the desired height */
+  width: 250px;
+  height: 40px;
   padding: 0.5rem;
   border-radius: 5px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Add shadow for clean look */
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); 
 }
 
 input#wd-search-assignment:focus {

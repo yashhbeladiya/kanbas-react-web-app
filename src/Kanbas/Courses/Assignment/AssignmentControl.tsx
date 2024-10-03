@@ -4,12 +4,12 @@ import { GoPlus } from "react-icons/go";
 export default function AssignmentControl() {
   return (
     <div id="wd-search-assignment" className="d-flex align-items-center justify-content-between mb-3">
-      <div className="wd-input-seach form-control d-flex align-items-center">
+      <div className="wd-input-seach border p-2 rounded-3 d-flex align-items-center w-500">
         <CiSearch className="fs-5 me-2" />
         <input
           id="wd-search-assignment"
           placeholder="Search..."
-          className="border-0 flex-grow-1"
+          className="border-0"
         />
       </div>
       <div className="d-flex float-right me-3">
