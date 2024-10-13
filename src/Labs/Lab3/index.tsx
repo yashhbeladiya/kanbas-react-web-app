@@ -33,6 +33,7 @@ import TodoList from "./TodoList";
 import VariablesAndConstants from "./VariablesAndConstants";
 
 export default function Lab3() {
+    console.log("Hello World");
     return (
         <div>
             <h2>Lab 3</h2>
