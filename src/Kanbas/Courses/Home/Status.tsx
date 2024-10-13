@@ -14,7 +14,7 @@ export default function CourseStatus() {
       <div className="d-flex">
         <div className="w-50 pe-1">
           <button className="btn btn-lg btn-secondary w-100 text-nowrap ">
-            <MdBlockFlipped className="me-2 fs-5" /> Unpublish
+            <MdBlockFlipped className="me-1 fs-5" /> Unpublish
           </button>
         </div>
         <div className="w-50">
