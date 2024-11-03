@@ -6,11 +6,15 @@ import { PiLifebuoy } from "react-icons/pi";
 import { IoMdStats } from "react-icons/io";
 import { GrAnnounce } from "react-icons/gr";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 export default function CourseStatus() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   return (
-    <div id="wd-course-status" style={{ width: "300px" }}>
+    <div id="wd-course-status" style={{ width: "300px" }} className="d-none d-md-block">
       <h2>Course Status</h2>
+      {currentUser?.role === "FACULTY" && (
+        <>
       <div className="d-flex">
         <div className="w-50 pe-1">
           <button className="btn btn-lg btn-secondary w-100 text-nowrap ">
@@ -32,7 +36,9 @@ export default function CourseStatus() {
       </button>
       <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <PiLifebuoy className="me-2 fs-5" /> Choose Home Page
-      </button>
+      </button> 
+      </>
+      )}
       <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <IoMdStats className="me-2 fs-5" /> View Course Stream
       </button>

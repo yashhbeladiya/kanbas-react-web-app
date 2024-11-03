@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
 import * as db from "./Database";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+
 export default function Dashboard({ courses, course, setCourse, addNewCourse,
   deleteCourse, updateCourse }: {
   courses: any[]; course: any; setCourse: (course: any) => void;
   addNewCourse: () => void; deleteCourse: (course: any) => void;
   updateCourse: () => void; }) {
 
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { enrollments } = db;
+
   return (
     <div id="wd-dashboard" className="mt-2">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+      {currentUser?.role === "FACULTY" && (
+      <div className="wd-edit-courses me-2">
       <h5>
         New Course
         <button
@@ -17,8 +23,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
           id="wd-add-new-course-click"
           onClick={addNewCourse}
         >
-          {" "}
-          Add{" "}
+          Add
         </button>
         <button className="btn btn-warning float-end me-2"
                 onClick={updateCourse} id="wd-update-course-click">
@@ -37,13 +42,19 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
         onChange={(e) => setCourse({ ...course, description: e.target.value })}
       />
       <hr />
+      </div>
+      )}
+
       <h2 id="wd-dashboard-published">
         Published Courses ({courses.length})
-      </h2>{" "}
+      </h2>
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {courses.map((course) => (
+          {courses.filter((course) =>
+          enrollments.find((enrollment) => enrollment.course === course._id &&
+          enrollment.user === currentUser._id))
+          .map((course) => (
             <div className="wd-dashboard-course col" style={{ width: "300px" }}>
               <div className="card rounded-3 overflow-hidden">
                 <Link
@@ -62,7 +73,8 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                       {course.description}
                     </p>
                     <button className="btn btn-primary"> Go </button>
-
+                    {currentUser?.role === "FACULTY" && (
+                      <>
                     <button // Delete button
                       onClick={(event) => {
                         event.preventDefault();
@@ -84,6 +96,8 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                     >
                       Edit
                     </button>
+                    </>
+                    )}
                   </div>
                 </Link>
               </div>

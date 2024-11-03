@@ -85,3 +85,17 @@ button#wd-add-assignment {
 a {
   text-decoration: none;
 }
+
+/* Only apply margin to main content on medium to larger screens */
+@media (min-width: 768px) {
+  #wd-courses .content {
+    margin-left: 220px; /* Slightly more than the width of the sidebar */
+  }
+}
+
+/* On smaller screens, ensure navigation is hidden and no margin is added */
+@media (max-width: 767px) {
+  #wd-courses-navigation {
+    display: none;
+  }
+}

@@ -5,49 +5,35 @@ import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
 import { BsGripVertical } from "react-icons/bs";
 import { useParams } from "react-router";
+import { addModule, editModule, updateModule, deleteModule }
+  from "./reducer";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Modules() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { cid } = useParams();
-  const [modules, setModules] = useState<any[]>(db.modules);
   const [moduleName, setModuleName] = useState("");
-  const addModule = () => {
-    setModules([
-      ...modules,
-      {
-        _id: new Date().getTime().toString(),
-        name: moduleName,
-        course: cid,
-        lessons: [],
-      },
-    ]);
-    setModuleName("");
-  };
-  const deleteModule = (moduleId: string) => {
-    setModules(modules.filter((m) => m._id !== moduleId));
-  };
-
-  const editModule = (moduleId: string) => {
-    setModules(
-      modules.map((m) => (m._id === moduleId ? { ...m, editing: true } : m))
-    );
-  };
-  const updateModule = (module: any) => {
-    setModules(modules.map((m) => (m._id === module._id ? module : m)));
-  };
-
+  const { modules } = useSelector((state: any) => state.modulesReducer);
+  const dispatch = useDispatch();
+  
   return (
-    <div>
-      <ModulesControls
-        setModuleName={setModuleName}
-        moduleName={moduleName}
-        addModule={addModule}
-      />
+    <div className="me-4">
+      <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">
+        Collapse All
+      </button>
+      {currentUser?.role === "FACULTY" && (
+      <ModulesControls moduleName={moduleName} setModuleName={setModuleName}
+        addModule={() => {
+          dispatch(addModule({ name: moduleName, course: cid }));
+          setModuleName("");
+        }} />
+      )}
       <br />
       <br />
       <ul id="wd-modules" className="list-group rounded-0 mt-5 me-2">
         {modules
-          .filter((module) => module.course === cid)
-          .map((module) => (
+          .filter((module: any) => module.course === cid)
+          .map((module: any) => (
             <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
               <div className="wd-title p-3 ps-2 bg-secondary">
                 <BsGripVertical className="me-2 fs-3" />
@@ -56,22 +42,24 @@ export default function Modules() {
                   <input
                     className="form-control w-50 d-inline-block"
                     onChange={(e) =>
-                      updateModule({ ...module, name: e.target.value })
+                      dispatch(updateModule({ ...module, name: e.target.value }))
                     }
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        updateModule({ ...module, editing: false });
+                        dispatch(updateModule({ ...module, editing: false }));
                       }
                     }}
                     defaultValue={module.name}
                   />
                 )}
 
-                <ModuleControlButtons
-                  moduleId="module._id"
-                  deleteModule={deleteModule}
-                  editModule={editModule}
-                />
+                {currentUser?.role === "FACULTY" && (
+                <ModuleControlButtons moduleId={module._id}
+                  deleteModule={(moduleId) => {
+                    dispatch(deleteModule(moduleId));
+                  }}
+                  editModule={(moduleId) => dispatch(editModule(moduleId))} />
+                )}
               </div>
               {module.lessons && (
                 <ul className="wd-lessons list-group rounded-0">
@@ -79,7 +67,9 @@ export default function Modules() {
                     <li className="wd-lesson list-group-item p-3 ps-1">
                       <BsGripVertical className="me-2 fs-3" />
                       {lesson.name}
+                      {currentUser?.role === "FACULTY" && (
                       <LessonControlButtons />
+                      )}
                     </li>
                   ))}
                 </ul>
