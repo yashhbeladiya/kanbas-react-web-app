@@ -1,10 +1,48 @@
 import { useParams } from "react-router-dom";
-import * as db from "../../Database";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addAssignment,
+  deleteAssignment,
+  updateAssignment,
+  editAssignment,
+} from "./reducer";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AssignmentEditor() {
   const { aid } = useParams();
-  const assignments = db.assignments;
-  const assignment_name = assignments.filter((assignments) => assignments._id === aid)[0].title;
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cid = useParams().cid;
+  const [assignment, setAssignment] = useState({
+    title: "",
+    course: cid,
+    description: "",
+    due: "2024-11-11",
+    points: 100,
+    availableDate: "2024-11-06",
+    availableUntil: "2024-11-20",
+  });
+
+  useEffect(() => {
+    if (aid !== "new") {
+      const existingAssignment = assignments.find((a: any) => a._id === aid);
+      if (existingAssignment) {
+        setAssignment(existingAssignment);
+      }
+    }
+  }, [aid, assignments]);
+
+  const handleSave = () => {
+    if (aid === "new") {
+      dispatch(addAssignment(assignment));
+    } else {
+      dispatch(updateAssignment(assignment));
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
   return (
     <div id="wd-assignments-editor" className="container mt-5">
       <div className="mb-4">
@@ -14,29 +52,39 @@ export default function AssignmentEditor() {
           </label>
         </h4>
         <div className="me-5 md-5">
-          <input id="wd-name" value={ assignment_name } className="form-control" />
+          <input
+            id="wd-name"
+            value={assignment.title}
+            className="form-control"
+            onChange={(e) =>
+              setAssignment({ ...assignment, title: e.target.value })
+            }
+          />
         </div>
       </div>
-      
+
       <div className="mb-4 me-5">
-        <textarea
-          id="wd-description"
-          rows={10}
-          className="form-control"
-        >
-          The assignment is available online Submit a link to the landing page
-          of
-        </textarea>
+        <textarea id="wd-description" rows={10} className="form-control"
+          value={assignment.description}
+          onChange={(e) =>
+            setAssignment({ ...assignment, description: e.target.value })
+          }
+        />
       </div>
 
       <div className="row g-3 mb-4 me-5">
         <div className="col-md-2">
-          <label htmlFor="wd-points" className="col-form-label float-right me-5">
+          <label
+            htmlFor="wd-points"
+            className="col-form-label float-right me-5"
+          >
             Points
           </label>
         </div>
         <div className="col-md-10">
-          <input id="wd-points" value={100} className="form-control" />
+          <input id="wd-points" value={assignment.points} className="form-control" 
+          onChange={(e) => setAssignment({ ...assignment, points: Number(e.target.value)})
+          }/>
         </div>
       </div>
 
@@ -75,7 +123,7 @@ export default function AssignmentEditor() {
           </label>
         </div>
         <div className="col-md-10 border p-3">
-          <div className="mb-2" >
+          <div className="mb-2">
             <select id="wd-submission-type" className="form-select">
               <option value="ONLINE">ONLINE</option>
               <option value="OFFLINE">OFFLINE</option>
@@ -172,8 +220,11 @@ export default function AssignmentEditor() {
             <input
               type="date"
               id="wd-due-date"
-              value="2024-05-13"
+              value= {assignment.due}
               className="form-control"
+              onChange={(e) =>
+                setAssignment({ ...assignment, due: e.target.value })
+              }
             />
           </div>
           <div className="d-flex col-md-6">
@@ -187,8 +238,11 @@ export default function AssignmentEditor() {
                 <input
                   type="date"
                   id="wd-available-from"
-                  value="2024-05-06"
+                  value={assignment.availableDate}
                   className="form-control"
+                  onChange={(e) =>
+                    setAssignment({ ...assignment, availableDate: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -202,7 +256,10 @@ export default function AssignmentEditor() {
                 <input
                   type="date"
                   id="wd-available-until"
-                  value="2024-05-20"
+                  value={assignment.availableUntil}
+                  onChange={(e) =>
+                    setAssignment({ ...assignment, availableUntil: e.target.value })
+                  }
                   className="form-control"
                 />
               </div>
@@ -210,14 +267,24 @@ export default function AssignmentEditor() {
           </div>
         </div>
       </div>
-        <div className="d-flex justify-content-end mt-5 pt-3 me-5 mb-5 border-top">
-          <button type="button" id="wd-buttons" className="btn btn-secondary me-2 border rounded-0">
-            Cancel
-          </button>
-          <button type="button" id="wd-buttons" className="btn btn-danger border rounded-0">
-            Save
-          </button>
-        </div>
+      <div className="d-flex justify-content-end mt-5 pt-3 me-5 mb-5 border-top">
+        <button
+          type="button"
+          id="wd-buttons"
+          className="btn btn-secondary me-2 border rounded-0"
+          onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments`)}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          id="wd-buttons"
+          className="btn btn-danger border rounded-0"
+          onClick={handleSave}
+        >
+          Save
+        </button>
+      </div>
     </div>
   );
 }

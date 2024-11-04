@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as db from "../../Database";
 import LessonControlButtons from "./LessonControlButtons";
 import ModulesControls from "./ModulesControls";
 import ModuleControlButtons from "./ModuleControlButtons";
@@ -18,9 +17,6 @@ export default function Modules() {
   
   return (
     <div className="me-4">
-      <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">
-        Collapse All
-      </button>
       {currentUser?.role === "FACULTY" && (
       <ModulesControls moduleName={moduleName} setModuleName={setModuleName}
         addModule={() => {
@@ -28,6 +24,9 @@ export default function Modules() {
           setModuleName("");
         }} />
       )}
+      <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">
+        Collapse All
+      </button>
       <br />
       <br />
       <ul id="wd-modules" className="list-group rounded-0 mt-5 me-2">
