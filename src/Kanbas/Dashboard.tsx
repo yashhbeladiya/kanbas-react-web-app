@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import * as db from "./Database";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { enrolledCourse, unenrolledCourse } from "./reducer";
-import { courses } from "./Database";
 
 export default function Dashboard({
   courses,
@@ -143,7 +141,7 @@ export default function Dashboard({
                   to={`/Kanbas/Courses/${course._id}/Home`}
                   onClick={(event) => handleCourseClick(course._id, event)}
                 >
-                  <img src="/images/reactjs.jpg" width="100%" height={160} />
+                  <img src="/images/reactjs.jpg" width="100%" height={160} alt="" />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                       {course.name}

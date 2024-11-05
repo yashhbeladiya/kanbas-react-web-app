@@ -1,4 +1,3 @@
-import { courses } from "../Database";
 import {
   Navigate,
   Route,
