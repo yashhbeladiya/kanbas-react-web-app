@@ -51,12 +51,16 @@ export default function Assignments() {
                   <AssignmentIcon />
                 </div>
                 <div className="float-left">
+                  {currentUser?.role === "FACULTY" ? (
                   <a
                     className="wd-assignment-link p-2 ps-0 fs-5 text-dark"
                     href={`#/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                   >
                     {assignment.title}
                   </a>
+                  ) : (
+                    <h5>{assignment.title}</h5>
+                  )}
                 </div>
                 {currentUser?.role === "FACULTY" && (
                 <div className="ms-auto me-2 d-flex">
