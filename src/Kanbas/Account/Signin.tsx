@@ -19,7 +19,7 @@ export default function Signin() {
     <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100 mx-auto">
       <div
         id="wd-signin-screen"
-        className="card p-4 shadow-sm"
+        className="card p-4 shadow-sm "
         style={{ maxWidth: "400px", width: "100%" }}
       >
         <h3 className="card-title text-center mb-3">Sign in</h3>
