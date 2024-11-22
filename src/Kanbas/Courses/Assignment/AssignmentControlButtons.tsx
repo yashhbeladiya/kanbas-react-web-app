@@ -2,13 +2,14 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { FaTrash } from "react-icons/fa";
 import GreenCheckmark from "../Modules/GreenCheckmark";
 import AssignmentDelete from "./AssignmentDelete";
+
 export default function AssignmentControlButtons({
     assignmentId,
-  deleteAssignment,
 }: {
     assignmentId: string;
-  deleteAssignment: () => void
 }) {
+
+
   return (
     <div className="float-end d-flex">
       <button
@@ -22,7 +23,6 @@ export default function AssignmentControlButtons({
       <AssignmentDelete
         dialogTitle="Delete Assignment"
         assignmentId={assignmentId}
-        deleteAssignment={() => deleteAssignment()}
       />
       <GreenCheckmark />
       <IoEllipsisVertical className="fs-4" />

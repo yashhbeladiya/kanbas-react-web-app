@@ -5,8 +5,10 @@ import { BsGripVertical } from "react-icons/bs";
 import AssignmentIcon from "./AssignmentIcon";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import * as courseClient from "../client";
 import {
-  deleteAssignment,
+  setAssignments,
 } from "./reducer";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 
@@ -14,7 +16,17 @@ export default function Assignments() {
   const { cid } = useParams();
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+
   const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    const assignments = await courseClient.fetchAssignment(cid as string);
+    dispatch(setAssignments(assignments));
+  }
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
   return (
     <div id="wd-assignments">
@@ -44,7 +56,6 @@ export default function Assignments() {
 
         <ul id="wd-assignment-list" className="list-group rounded-0">
           {assignments
-            .filter((assignment: any) => assignment.course === cid)
             .map((assignment: any) => (
               <li className="d-flex wd-assignment-list-item list-group-item pt-3 pb-3 pe-0 me-3 fs-6 wd-lesson">
                 <div className="d-flex align-items-center ps-0 ms-0 me-2 float-left">
@@ -66,7 +77,6 @@ export default function Assignments() {
                 <div className="ms-auto me-2 d-flex">
                   <AssignmentControlButtons
                     assignmentId={assignment._id}
-                    deleteAssignment={() => dispatch(deleteAssignment(assignment._id))}
                   />
                 </div>
                 )}

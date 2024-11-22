@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addAssignment,
-  updateAssignment,
-} from "./reducer";
+import { addAssignment, updateAssignment } from "./reducer";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import * as courseClient from "../client";
+import * as assignmentClient from "./client";
+import { title } from "process";
 
 export default function AssignmentEditor() {
   const { aid } = useParams();
@@ -32,10 +32,18 @@ export default function AssignmentEditor() {
     }
   }, [aid, assignments]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!cid) return;
     if (aid === "new") {
-      dispatch(addAssignment(assignment));
+      const assignmentName = assignment.title;
+      const newAssignment = { title: assignmentName, course: cid };
+      const assignment1 = await courseClient.createAssignment(
+        cid,
+        newAssignment
+      );
+      dispatch(addAssignment(assignment1));
     } else {
+      await assignmentClient.updateAssignment(assignment);
       dispatch(updateAssignment(assignment));
     }
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
@@ -62,7 +70,10 @@ export default function AssignmentEditor() {
       </div>
 
       <div className="mb-4 me-5">
-        <textarea id="wd-description" rows={10} className="form-control"
+        <textarea
+          id="wd-description"
+          rows={10}
+          className="form-control"
           value={assignment.description}
           onChange={(e) =>
             setAssignment({ ...assignment, description: e.target.value })
@@ -80,9 +91,14 @@ export default function AssignmentEditor() {
           </label>
         </div>
         <div className="col-md-10">
-          <input id="wd-points" value={assignment.points} className="form-control" 
-          onChange={(e) => setAssignment({ ...assignment, points: Number(e.target.value)})
-          }/>
+          <input
+            id="wd-points"
+            value={assignment.points}
+            className="form-control"
+            onChange={(e) =>
+              setAssignment({ ...assignment, points: Number(e.target.value) })
+            }
+          />
         </div>
       </div>
 
@@ -218,7 +234,7 @@ export default function AssignmentEditor() {
             <input
               type="date"
               id="wd-due-date"
-              value= {assignment.due}
+              value={assignment.due}
               className="form-control"
               onChange={(e) =>
                 setAssignment({ ...assignment, due: e.target.value })
@@ -239,7 +255,10 @@ export default function AssignmentEditor() {
                   value={assignment.availableDate}
                   className="form-control"
                   onChange={(e) =>
-                    setAssignment({ ...assignment, availableDate: e.target.value })
+                    setAssignment({
+                      ...assignment,
+                      availableDate: e.target.value,
+                    })
                   }
                 />
               </div>
@@ -256,7 +275,10 @@ export default function AssignmentEditor() {
                   id="wd-available-until"
                   value={assignment.availableUntil}
                   onChange={(e) =>
-                    setAssignment({ ...assignment, availableUntil: e.target.value })
+                    setAssignment({
+                      ...assignment,
+                      availableUntil: e.target.value,
+                    })
                   }
                   className="form-control"
                 />

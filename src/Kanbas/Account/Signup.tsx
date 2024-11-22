@@ -1,6 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import * as client from "./client";
+import { setCurrentUser } from "./reducer";
+import { useDispatch } from "react-redux";
+
 export default function Signup() {
+  const [user, setUser] = useState<any>({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const signup = async () => {
+    const newUser = await client.signup(user);
+    if (!newUser) return;
+    dispatch(setCurrentUser(newUser));
+    navigate("/Kanbas/Account/Profile");
+  };
+
   return (
     <div className="container min-vh-100 d-flex justify-content-center align-items-center">
       <div
@@ -10,23 +24,32 @@ export default function Signup() {
       >
         <h3 className="card-title text-center mb-3">Sign up</h3>
         <div className="card-body">
-          <input placeholder="Username" className="form-control mb-3" />
           <input
+            placeholder="Username"
+            className="form-control mb-3"
+            value={user.username}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+          />
+          <input
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
             placeholder="Password"
             type="password"
             className="form-control mb-3"
           />
-          <input
+          {/* <input
             placeholder="Verify Password"
             type="password"
             className="form-control mb-3"
-          />
-          <Link
-            to="/Kanbas/Account/Profile"
-            className="btn btn-primary w-100 mb-2"
+          /> */}
+          <button
+            onClick={signup}
+            className="wd-signup-btn btn btn-primary mb-2 w-100"
           >
-            Sign up
-          </Link>
+            {" "}
+            Sign up{" "}
+          </button>
+          <br />
           <div className="text-center">
             <Link to="/Kanbas/Account/Signin" className="text-decoration-none">
               Already have an account? Sign in

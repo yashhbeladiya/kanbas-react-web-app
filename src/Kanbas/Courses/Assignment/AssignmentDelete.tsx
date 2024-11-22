@@ -1,12 +1,22 @@
+import { deleteAssignment } from "./reducer";
+import * as assignmentClient from "./client";
+import { useDispatch } from "react-redux";
+
 export default function AssignmentDelete({
   dialogTitle,
   assignmentId,
-  deleteAssignment,
 }: {
   dialogTitle: string;
   assignmentId: string;
-  deleteAssignment: () => void;
 }) {
+
+  const dispatch = useDispatch();
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  }
+
   const modalId = `wd-delete-assignment-dialog-${assignmentId}`;
   return (
     <div
@@ -36,7 +46,7 @@ export default function AssignmentDelete({
               Cancel
             </button>
             <button
-              onClick={deleteAssignment}
+              onClick={() => removeAssignment(assignmentId)}
               type="button"
               data-bs-dismiss="modal"
               className="btn btn-danger"

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { enrolledCourse, unenrolledCourse } from "./reducer";
+import { useEffect, useState } from "react";
+import { setEnrollments, enrolledCourse, unenrolledCourse } from "./reducer";
+import * as client from "./client";
 
 export default function Dashboard({
   courses,
@@ -23,8 +24,18 @@ export default function Dashboard({
   const dispatch = useDispatch();
   const [showAllCourses, setShowAllCourses] = useState(false);
 
+  const fetchEnrollments = async () => {
+    const enrollments = await client.fetchAllEnrollments();
+    dispatch(setEnrollments(enrollments));
+    console.log("Enrollments", enrollments);
+  };
+
+  useEffect(() => {
+    fetchEnrollments();
+  }, []);
+
   // Check if the user is enrolled in a course
-  const isEnrolled = (courseId : string) => {
+  const isEnrolled = (courseId: string) => {
     const enrolled = enrollments.some(
       (enrollment: any) =>
         enrollment.course === courseId && enrollment.user === currentUser._id
@@ -33,20 +44,28 @@ export default function Dashboard({
     return enrolled;
   };
 
-  const handleEnrollment = (courseId: any, event: any) => {
+  const handleEnrollment = async (courseId: any, event: any) => {
     event.preventDefault();
     event.stopPropagation();
-    
+
     if (isEnrolled(courseId)) {
       // find enrollment id
       const enrollment = enrollments.find(
         (enrollment: any) =>
           enrollment.course === courseId && enrollment.user === currentUser._id
       );
+      // unenroll from course
+      await client.unenrolledCourse(enrollment._id);
+
       dispatch(unenrolledCourse(enrollment._id));
       console.log("Unenrolled from course");
     } else {
       // enroll in course
+      await client.enrolledCourse({
+        course: courseId,
+        user: currentUser._id,
+      });
+
       dispatch(
         enrolledCourse({
           _id: new Date().getTime().toString(),
@@ -55,9 +74,8 @@ export default function Dashboard({
         })
       );
       console.log("Enrolled in course", courseId);
-      
-      console.log(enrollments);
 
+      console.log(enrollments);
     }
   };
 
@@ -141,7 +159,12 @@ export default function Dashboard({
                   to={`/Kanbas/Courses/${course._id}/Home`}
                   onClick={(event) => handleCourseClick(course._id, event)}
                 >
-                  <img src="/images/reactjs.jpg" width="100%" height={160} alt="" />
+                  <img
+                    src="/images/reactjs.jpg"
+                    width="100%"
+                    height={160}
+                    alt=""
+                  />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">
                       {course.name}
