@@ -14,11 +14,12 @@ export default function Profile() {
     dispatch(setCurrentUser(updatedProfile));
   };
 
-  const fetchProfile = () => {
+  const fetchProfile = async () => {
     if (!currentUser) {
       navigate("/Kanbas/Account/Signin");
     }
-    setProfile(currentUser);
+    const currentUser1 = await client.profile();
+    setProfile(currentUser1);
   };
 
   const signOut = async () => {
@@ -62,20 +63,20 @@ export default function Profile() {
             />
             <input
               id="wd-firstname"
-              defaultValue={profile.firstname}
+              defaultValue={profile.firstName}
               placeholder="First Name"
               className="form-control mb-3"
               onChange={(e) =>
-                setProfile({ ...profile, firstname: e.target.value })
+                setProfile({ ...profile, firstName: e.target.value })
               }
             />
             <input
               id="wd-lastname"
-              defaultValue={profile.lastname}
+              defaultValue={profile.lastName}
               placeholder="Last Name"
               className="form-control mb-3"
               onChange={(e) =>
-                setProfile({ ...profile, lastname: e.target.value })
+                setProfile({ ...profile, lastName: e.target.value })
               }
             />
             <input

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const axiosWithCredentials = axios.create({ withCredentials: true });
+axios.defaults.withCredentials = true;
 
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
@@ -46,12 +47,12 @@ export const updateUser = async (user: any) => {
 export const profile = async () => {
   try {
     console.log("Making profile request to:", `${USERS_API}/profile`);
-    const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
+    const response = await axiosWithCredentials.get(`${USERS_API}/profile`);
     console.log("Profile API response:", response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching profile:", error);
-    return;
+    console.log("Error fetching profile:", error);
+    return null;
   }
 };
 

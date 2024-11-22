@@ -11,14 +11,16 @@ export default function Session({ children }: { children: any }) {
       dispatch(setCurrentUser(currentUser));
     } catch (err: any) {
       console.error(err);
+    } finally {
+      console.log("Setting pending to false");
+      setPending(false);
     }
-    setPending(false);
   };
 
   useEffect(() => {
     fetchProfile();
   }, []);
-  
+
   if (!pending) {
     return children;
   }
