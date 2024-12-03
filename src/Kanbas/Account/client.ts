@@ -17,17 +17,17 @@ export const signin = async (credentials: any) => {
   } catch (error) {
     // printing error message to the console
     if (axios.isAxiosError(error)) {
-        console.error("Axios error details:", {
-          message: error.message,
-          code: error.code,
-          config: error.config,
-          request: error.request,
-          response: error.response,
-        });
-      } else {
-        console.error("Non-Axios error:", error);
-      }
-      return;
+      console.error("Axios error details:", {
+        message: error.message,
+        code: error.code,
+        config: error.config,
+        request: error.request,
+        response: error.response,
+      });
+    } else {
+      console.error("Non-Axios error:", error);
+    }
+    return;
   }
 };
 
@@ -78,29 +78,32 @@ export const createCourse = async (course: any) => {
   return data;
 };
 
-// export const enrolledCourse = async (enrollment: any) => {
-//   const { data } = await axiosWithCredentials.post(
-//     `${USERS_API}/current/courses`,
-//     enrollment
-//   );
-//   return data;
-// }
+export const findAllUsers = async () => {
+  const response = await axiosWithCredentials.get(USERS_API);
+  return response.data;
+};
 
-// export const unenrolledCourse = async (enrollmentId: string) => {
-//   const { data } = await axiosWithCredentials.delete(
-//     `${USERS_API}/current/courses/${enrollmentId}`
-//   );
-//   return data;
-// }
+export const findUsersByRole = async (role: string) => {
+  const response = await axios.get(`${USERS_API}?role=${role}`);
+  return response.data;
+};
 
-// export const findEnrollmentsForUser = async (userId: string) => {
-//   const { data } = await axiosWithCredentials.get(
-//     `${USERS_API}/${userId}/courses`
-//   );
-//   return data;
-// }
+export const findUsersByPartialName = async (name: string) => {
+  const response = await axios.get(`${USERS_API}?name=${name}`);
+  return response.data;
+};
 
-// export const findAllEnrollments = async () => {
-//   const { data } = await axiosWithCredentials.get(`${USERS_API}/enrollments`);
-//   return data;
-// }
+export const findUserById = async (id: string) => {
+  const response = await axios.get(`${USERS_API}/${id}`);
+  return response.data;
+};
+
+export const deleteUser = async (userId: string) => {
+  const response = await axios.delete(`${USERS_API}/${userId}`);
+  return response.data;
+};
+
+export const createUser = async (user: any) => {
+  const response = await axios.post(`${USERS_API}`, user);
+  return response.data;
+};
