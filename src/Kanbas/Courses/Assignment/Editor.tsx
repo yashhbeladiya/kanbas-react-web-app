@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as courseClient from "../client";
 import * as assignmentClient from "./client";
-import { title } from "process";
 
 export default function AssignmentEditor() {
   const { aid } = useParams();
@@ -17,11 +16,16 @@ export default function AssignmentEditor() {
     title: "",
     course: cid,
     description: "",
-    due: "2024-11-11",
+    due: new Date().toISOString(),
     points: 100,
-    availableDate: "2024-11-06",
-    availableUntil: "2024-11-20",
+    availableDate:  new Date().toISOString(),
+    availableUntil: new Date().toISOString(),
   });
+
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0];
+  };
 
   useEffect(() => {
     if (aid !== "new") {
@@ -39,13 +43,14 @@ export default function AssignmentEditor() {
       const newAssignment = { title: assignmentName, course: cid };
       const assignment1 = await courseClient.createAssignment(
         cid,
-        newAssignment
+        assignment
       );
       dispatch(addAssignment(assignment1));
     } else {
       await assignmentClient.updateAssignment(assignment);
       dispatch(updateAssignment(assignment));
     }
+    console.log("Created assignment", assignment);
     navigate(`/Kanbas/Courses/${cid}/Assignments`);
   };
 
@@ -234,10 +239,9 @@ export default function AssignmentEditor() {
             <input
               type="date"
               id="wd-due-date"
-              value={assignment.due}
+              value={formatDate(assignment.due)}
               className="form-control"
-              onChange={(e) =>
-                setAssignment({ ...assignment, due: e.target.value })
+              onChange={(e) => setAssignment({ ...assignment, due: e.target.value })
               }
             />
           </div>
@@ -252,13 +256,9 @@ export default function AssignmentEditor() {
                 <input
                   type="date"
                   id="wd-available-from"
-                  value={assignment.availableDate}
+                  value={formatDate(assignment.availableDate)}
                   className="form-control"
-                  onChange={(e) =>
-                    setAssignment({
-                      ...assignment,
-                      availableDate: e.target.value,
-                    })
+                  onChange={(e) => setAssignment({ ...assignment, availableDate: e.target.value })
                   }
                 />
               </div>
@@ -273,12 +273,8 @@ export default function AssignmentEditor() {
                 <input
                   type="date"
                   id="wd-available-until"
-                  value={assignment.availableUntil}
-                  onChange={(e) =>
-                    setAssignment({
-                      ...assignment,
-                      availableUntil: e.target.value,
-                    })
+                  value={formatDate(assignment.availableUntil)}
+                  onChange={(e) => setAssignment({ ...assignment, availableUntil: e.target.value })
                   }
                   className="form-control"
                 />

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { setCurrentUser } from "./reducer";
 import * as client from "./client";
+import toast from "react-hot-toast";
 
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
@@ -12,13 +13,15 @@ export default function Profile() {
   const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
     dispatch(setCurrentUser(updatedProfile));
+    toast.success("Profile updated successfully");
   };
 
   const fetchProfile = async () => {
-    if (!currentUser) {
+    const currentUser1 = await client.profile();
+    if (!currentUser1) {
+      dispatch(setCurrentUser(null));
       navigate("/Kanbas/Account/Signin");
     }
-    const currentUser1 = await client.profile();
     setProfile(currentUser1);
   };
 
@@ -26,6 +29,13 @@ export default function Profile() {
     await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/Kanbas/Account/Signin");
+  };
+
+  const formatDate = (dateString: any) => {
+    if (!dateString) return ""; // Return an empty string if dateString is undefined or null
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return ""; // Return an empty string if the date is invalid
+    return date.toISOString().split("T")[0];
   };
 
   useEffect(() => {
@@ -81,8 +91,9 @@ export default function Profile() {
             />
             <input
               id="wd-dob"
-              defaultValue={profile.dob}
+              defaultValue={formatDate(profile.dob)}
               type="date"
+              placeholder="Date of Birth"
               className="form-control mb-3"
               onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
             />
@@ -90,6 +101,7 @@ export default function Profile() {
               id="wd-email"
               defaultValue={profile.email}
               type="email"
+              placeholder="Email"
               className="form-control mb-3"
               onChange={(e) =>
                 setProfile({ ...profile, email: e.target.value })

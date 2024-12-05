@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { setCurrentUser } from "./reducer";
 import { useDispatch } from "react-redux";
 import * as client from "./client";
+import toast from "react-hot-toast";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({});
@@ -10,7 +11,9 @@ export default function Signin() {
   const navigate = useNavigate();
   const signin = async () => {
     const user = await client.signin(credentials);
-    if (!user) return;
+    if (!user) {
+      toast.error("Invalid credentials");
+    }
     dispatch(setCurrentUser(user));
     navigate("/Kanbas/Dashboard");
   };
