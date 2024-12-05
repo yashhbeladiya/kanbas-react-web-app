@@ -114,6 +114,7 @@ export default function Dashboard({
                         <button
                           onClick={(event) => {
                             event.preventDefault();
+                            event.stopPropagation();
                             updateEnrollment(course._id, !course.enrolled);
                           }}
                           className={`btn ${
@@ -158,7 +159,7 @@ export default function Dashboard({
                         </button>
                       </>
                     )}
-                    
+
                   </div>
                 </Link>
               </div>
