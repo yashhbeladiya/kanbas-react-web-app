@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
-  const [error, setError] = useState<Error | null>(null);
   const [course, setCourse] = useState<any>({});
   const [enrolling, setEnrolling] = useState<boolean>(false);
 
