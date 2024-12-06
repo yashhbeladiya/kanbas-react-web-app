@@ -4,9 +4,14 @@ import { Provider } from "react-redux";
 import { HashRouter, Navigate, Route, Routes} from "react-router-dom";
 import Labs from "./Labs";
 import Kanbas from "./Kanbas";
+import { Toaster } from "react-hot-toast";
 export default function App() {
   return (
     <HashRouter>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <Provider store={store}>
       <div>
         <Routes>

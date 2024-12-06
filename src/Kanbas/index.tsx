@@ -10,6 +10,7 @@ import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -86,16 +87,28 @@ export default function Kanbas() {
     );
   };
 
+  const validateCourse = () => {
+    if (!course.name || !course.description) {
+      toast.error("Please enter a name and description for the course.");
+      return true;
+    }
+    return false;
+  }
   const addNewCourse =  async () => {
-    setCourse({ ...course, _id: "" });
+    if(validateCourse()) { return; }
+
+    setCourse({ ...course });
     const newCourse = await courseClient.createCourse(course);
-    setCourses([...courses, { ...course, newCourse }]);
+    setCourses([...courses, { ...course, ...newCourse }]);
+    setCourse({});
     console.log("New course", newCourse);
   };
 
   const deleteCourse = async (courseId: string) => {
+    console.log(courseId);
     const status = await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
+    // await fetchCourses();
   };
 
   useEffect(() => {
