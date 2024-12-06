@@ -3,7 +3,6 @@ import { FaCheck, FaUserCircle } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router";
 import { FaPencil } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import * as client from "../../Account/client";
 export default function PeopleDetails() {
   const { uid } = useParams();
@@ -21,8 +20,12 @@ export default function PeopleDetails() {
   const fetchUser = async () => {
     if (!uid) return;
     const user = await client.findUserById(uid);
+    setEmail(user.email);
+    setName(`${user.firstName} ${user.lastName}`);
+    setRole(user.role);
     setUser(user);
   };
+
   useEffect(() => {
     if (uid) fetchUser();
   }, [uid]);
@@ -35,13 +38,19 @@ export default function PeopleDetails() {
     await client.updateUser(updatedUser);
     setUser(updatedUser);
     setEditing(false);
+    setName("");
+    setEmail("");
+    setRole("");
     navigate(-1);
   };
 
   return (
     <div className="wd-people-details position-fixed top-0 end-0 bottom-0 bg-white p-4 shadow w-25">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          navigate(-1);
+          setEditing(false);
+        }}
         className="btn position-fixed end-0 top-0 wd-close-details"
       >
         <IoCloseSharp className="fs-1" />{" "}
