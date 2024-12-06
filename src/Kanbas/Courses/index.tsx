@@ -23,9 +23,8 @@ export default function Courses({ courses }: { courses: any[] }) {
 
   const fetchCourseUsers = async () => {
     if (cid) {
-      const users = await courseClient.findUsersForCourse(cid);
-      setUsers(users);
-      console.log(users);
+      const users1 = await courseClient.findUsersForCourse(cid);
+      setUsers(users1);
     } else {
       console.error("Course ID is undefined");
     }
