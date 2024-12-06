@@ -36,6 +36,8 @@ export default function Dashboard({
       return;
     }
   };
+
+  console.log("Dashboard", courses);
   
   return (
     <div id="wd-dashboard" className="mt-2">
@@ -99,8 +101,8 @@ export default function Dashboard({
               <div className="card rounded-3 overflow-hidden">
                 <Link
                   className="wd-dashboard-course-link text-decoration-none text-dark"
-                  to={`/Kanbas/Courses/${course._id}/Home`}
-                  onClick={(event) => handleCourseClick(course._id, event)}
+                  to={`/Kanbas/Courses/${course?._id}/Home`}
+                  onClick={(event) => handleCourseClick(course?._id, event)}
                 >
                   <img
                     src="/images/reactjs.jpg"
@@ -115,22 +117,22 @@ export default function Dashboard({
                           onClick={(event) => {
                             event.preventDefault();
                             event.stopPropagation();
-                            updateEnrollment(course._id, !course.enrolled);
+                            updateEnrollment(course?._id, !course?.enrolled);
                           }}
                           className={`btn ${
-                            course.enrolled ? "btn-danger" : "btn-success"
+                            course?.enrolled ? "btn-danger" : "btn-success"
                           } float-end`}
                         >
-                          {course.enrolled ? "Unenroll" : "Enroll"}
+                          {course?.enrolled ? "Unenroll" : "Enroll"}
                         </button>
                       )}
-                      {course.name}
+                      {course?.name}
                     </h5>
                     <p
                       className="wd-dashboard-course-title card-text overflow-y-hidden"
                       style={{ maxHeight: 100 }}
                     >
-                      {course.description}
+                      {course?.description}
                     </p>
                     <button className="btn btn-primary"> Go </button>
 
@@ -139,7 +141,7 @@ export default function Dashboard({
                         <button // Delete button
                           onClick={(event) => {
                             event.preventDefault();
-                            deleteCourse(course._id);
+                            deleteCourse(course?._id);
                           }}
                           className="btn btn-danger float-end"
                           id="wd-delete-course-click"

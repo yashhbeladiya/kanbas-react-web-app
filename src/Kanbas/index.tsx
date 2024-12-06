@@ -18,11 +18,16 @@ export default function Kanbas() {
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
+  const removeNullCourses = (courses: any) => {
+    return courses.filter((course: any)=> course !== null);
+  };
+
   const findCoursesForUser = async () => {
     try {
-      const courses = await userClient.findCoursesForUser(currentUser._id);
-      setCourses(courses);
+      const courses = await userClient.findCoursesForUser(currentUser?._id);
+      setCourses(removeNullCourses(courses))
     } catch (error) {
+      console.log(currentUser);
       console.error(error);
     }
   };
@@ -51,13 +56,14 @@ export default function Kanbas() {
         currentUser._id
       );
       const courses = allCourses.map((course: any) => {
-        if (enrolledCourses.find((c: any) => c._id === course._id)) {
+        if (enrolledCourses.find((c: any) => c?._id === course?._id)) {
           return { ...course, enrolled: true };
         } else {
           return course;
         }
       });
-      setCourses(courses);
+      setCourses(removeNullCourses(courses))
+      console.log("Courses", courses);
     } catch (error) {
       console.error(error);
     }
@@ -65,6 +71,8 @@ export default function Kanbas() {
  
 
   const updateCourse = async () => {
+    console.log("Course ID", course._id);
+    console.log("Updating course", course);
     await courseClient.updateCourse(course);
     setCourses(
       courses.map((c) => {
@@ -78,9 +86,10 @@ export default function Kanbas() {
   };
 
   const addNewCourse =  async () => {
+    setCourse({ ...course, _id: "" });
     const newCourse = await courseClient.createCourse(course);
     setCourses([...courses, { ...course, newCourse }]);
-    setCourse({});
+    console.log("New course", newCourse);
   };
 
   const deleteCourse = async (courseId: string) => {

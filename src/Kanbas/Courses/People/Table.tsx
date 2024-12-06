@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import * as courseClient from "../client";
 
 export default function PeopleTable({ users = [] }: { users?: any[] }) {
-  console.log("PeopleTable users:", users);
   return (
     <div id="wd-people-table">
       <PeopleDetails />
