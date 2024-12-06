@@ -11,6 +11,11 @@ export default function Signup() {
   const signup = async () => {
     const newUser = await client.signup(user);
     if (!newUser) return;
+
+    // Automatically sign in the user after signup
+    const signedInUser = await client.signin({ username: user.username, password: user.password });
+    if (!signedInUser) return;
+    
     dispatch(setCurrentUser(newUser));
     navigate("/Kanbas/Account/Profile");
   };
