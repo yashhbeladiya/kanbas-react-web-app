@@ -18,6 +18,8 @@ export default function Kanbas() {
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
 
+  console.log("Server is running on:", process.env.REACT_APP_REMOTE_SERVER);
+
   const removeNullCourses = (courses: any) => {
     return courses.filter((course: any)=> course !== null);
   };
@@ -62,8 +64,7 @@ export default function Kanbas() {
           return course;
         }
       });
-      setCourses(removeNullCourses(courses))
-      console.log("Courses", courses);
+      setCourses(removeNullCourses(courses));
     } catch (error) {
       console.error(error);
     }
